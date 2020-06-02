@@ -19,6 +19,17 @@ public class Producto implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date createAt;
 
+    @Transient
+    private Long port;
+
+    public Long getPort() {
+        return port;
+    }
+
+    public void setPort(Long port) {
+        this.port = port;
+    }
+
     public Long getId() {
         return id;
     }

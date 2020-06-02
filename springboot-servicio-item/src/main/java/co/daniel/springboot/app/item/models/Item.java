@@ -28,7 +28,7 @@ public class Item {
         this.cantidad = cantidad;
     }
 
-    private Double getTotal(){
+    public Double getTotal(){
         return producto.getPrecio() * cantidad.doubleValue();
     }
 }
