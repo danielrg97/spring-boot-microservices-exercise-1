@@ -29,13 +29,13 @@ public class ProductoController {
         return productoService.findAll().stream().map(p -> {
                     p.setPort(port.longValue());
                     return p;
-        }
+                }
         ).collect(Collectors.toList());
     }
 
     @GetMapping("/ver/{id}")
-    public Producto detalle(@PathVariable Long id){
-        Producto producto =productoService.findById(id);
+    public Producto detalle(@PathVariable Long id) {
+        Producto producto = productoService.findById(id);
         //producto.setPort(Long.parseLong(environment.getProperty("local.server.port")));
         producto.setPort(port.longValue());
         return producto;
