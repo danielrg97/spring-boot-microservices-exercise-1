@@ -1,0 +1,30 @@
+Eureka server.
+Este es el servidor de nombres donde se administra todas las llamadas a los microservicios.
+Para configurar se debe establecer nombre del servicio y el puerto.
+		NOTA: Para que el servidor Eureka no se registre como un cliente se debe especificar en la configuracion:		
+				eureka.client.register-with-eureka = false
+				eureka.client.fetch-registry=false
+		Si estos valores se dejan por defecto, será registrado como un microservicio cliente			
+Eureka Client
+Para que el servidor pueda identificar los microservicios, se debe agregar a ellos la dependencia de Eureka Client.
+Al agregar la dependencia, se marca como un cliente del Eureka server, sin embargo es buena practica agregar la anotacion @EnableEurekaClient para marcarla de forma explicita.
+
+Una vez agregada la anotacion en los clientes, hay que agregar la ubicacion del servidor de eureka en el archivo de configuracion .properties(esta configuracion es opcional siempre y cuando el servidor esté al mismo nivel de los clientes, ejemplo cuando se maneja virtualizacion con Docker y orquestado con Kubernetes)
+
+Cada cliente una vez que se despliega, debe mandar una señal que avisa al servidor que está habilitado, a esta señal se le denomina como HeartBeat o latido de corazón, con esto le provee al servidor la ubicacion de la instancia (ip, puerto, nombre de maquina). al cabo que el servidor identifica al cliente, le pasa la informacion de los otros microservicios con los que se debe comunicar.
+NOTA: cuando el servicio deja de emitir el Heartbeat durante 30 segundos, el servidor de eureka elimina la instancia.
+NOTA: al agregar la dependencia de eureka client, se agrega implicitamente la dependencia de ribbon, por lo cual se puede eliminar del pom
+NOTA: al tener el microservicio como eureka client, se debe eliminar la anotacion de @RibbonClient ya que el servidor de eureka provee la informacion de los clientes a los cuales se deben consumir
+
+La ubicacion del servidor de eureka se indica en el archivo de configuracion .properties de cada cliente asi: 
+	eureka.client.service-url.defaultZone = http://UBICACIONEUREKA:PUERTO/eureka
+
+Escalamiento de servicios con puertos dinamicos
+Spring automaticamente debe dar los puertos a los servicios, esto hace mas escalable la aplicacion
+Para esto se debe cambiar el puerto del application properties asi: 
+		server.port=${PORT:0}
+con esto la aplicacion da el puerto y asi hace dinamico el escalamiento de instancias.
+despues hay que configurar la instancia en eureka asi:
+		eureka.instance.instance-id=${spring.application.name}:${spring.application.instance_id:${random.value}}
+Estos valores que se le dieron a instance-id son para poder manejar ids diferente por instancia, sin embargo se le pueden dar otros valores de acuerdo a la necesidad
+Con esto, cada vez que ejecutamos el microservicio, cada instancia se creará en un puerto diferente aleatorio 

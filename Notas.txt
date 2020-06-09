@@ -1,0 +1,8 @@
+Ribbon es un balanceador de cargas desarrollado por netflix, con una configuracion sencilla podemos crear este balanceo entre instancias del microservicio seleccionado, se integra con Feign para desacoplar la ubicacion del microservicio del codigo para tenerla en el archivo application.properties o application.yaml. 
+Desde el archivo de configuracion se debe especificar el nombre del microservicio (que se establece con el atributo spring.application.name) y se agrega una lista de servidores con la instancia con su ip y puerto. Ejm:
+	servicio-productos.ribbon.listOfServers=localhost:8001,localhost:9001
+nota: se debe eliminar el atributo url de la anotacion @FeignClient de su correspondiente service.
+
+nota: en la entidad los atributos con la anotacion @Transcient no persisten en la unidad de persistencia de JPA
+
+nota: estamos utilizando el algoritmo round robin para alternar entre instancias

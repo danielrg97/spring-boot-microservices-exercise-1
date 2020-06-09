@@ -1,0 +1,18 @@
+Hystrix
+Hystrix es una libreria de tolerancia a fallos y latencia de Netflix para el core de Spring Cloud, esta evita fallas en cascada en tiempo de ejecucion, Gestiona la comunicacion entre servicios.
+Este implementa un patron de diseño llamado 'Circuit Breaker'.
+Para habilitar Hystrix debes marcar el metodo main con @EnableCircuitBreaker
+Despues para dar uso de la herramienta se marcan los servicios con la anotacion @HystrixCommand(fallbackMethod = "metodoAlternativo")
+Este fallback method seria una funcion alternativa para suplir un fallo de un servicio que se consume, ya sea de la arquitectura de la aplicacion como puede ser un api externo. En el caso que el api esté caida o que tenga fallas en la disponibilidad, este FallbackMethod seria el metodo que se ejecuta.
+
+Configuracion de timeouts:
+
+Cuando los tiempos de espera exceden los 1000 ms, el servicio tira una excepcion, para esto ddebemos cubrir estos errores.
+El fallback method cubre este escenario en el caso que haya un error, sin embargo para evitar ir al fallback, podemos incrementar los tiempos de timeouts, esto se hace asi:
+Histrix anida al cliente ribbon, por lo tanto histrix debe tener un tiempo de respuesta mayor a ribbon ya que el servidor de nombres tiene un tiempo de respuesta por conexion a cada cliente y esto cuenta en el tiempo de respuesta de ribbon, ademas que al conectarse se va a demorar al ejecutar el metodo ya que este tiene un tiempo de ejecucion establecido (acceso a datos, fitros de procesos, transacccionalidad, etc.)
+Tambien hay que tener en cuenta la configuracion de retry (reintentos por tiempo de conexion fallidos) por parte de ribbon. Recordemos que ribbon es la interfaz rest donde consumimos los otros microservicios que se deben de interconectar.
+ La configuraacion es:
+ 	hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+	ribbon.ConnectTimeout: 3000
+  	ribbon.ReadTimeout: 57000
+ Como se puede ver en la configuracion, los tiempos de ribbon son menores o igual a los tiempos de hystrix debido a lo anterior.
