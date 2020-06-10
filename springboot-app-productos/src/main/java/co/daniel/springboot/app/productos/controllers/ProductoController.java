@@ -37,6 +37,7 @@ public class ProductoController {
     public Producto detalle(@PathVariable Long id) throws Exception {
         Producto producto = productoService.findById(id);
         producto.setPort(port.longValue());
+//        Thread.sleep(2000L);
         return producto;
     }
 }
