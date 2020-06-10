@@ -1,0 +1,38 @@
+Notas Zuul
+Es una herramienta de Netflix para enrutamiento y filtrado de peticiones entre microservicios, es el API gateway por lo tanto es la puerta de entrada de datos a cada servicio que consume en eureka.
+Se sincroniza con eureka y ribbon, funciona con el balanceo de cargas.
+sus caracteristicas son:
+-enrutamiento dinamico. va a cada uno de los microservicios.
+-se integra con ribbon, cada una de las peticiones que se realizan son mediante balanceo de carga.
+-tiene filtros caracteristicos a cada servicio. ejmplo: spring security (o JWT) no se configura en cada de los microservicios sino que zuul se encarga de la autorizacion como intermediario entre servicio y cliente.
+-le damos seguridad a cada una de las rutas.
+NOTA: hay que tener en cuenta que zuul se crea como un nuevo microservicio que posteriormente se debe regisitrar en Eureka.
+
+Para hacer el servidor zuul se debe contar con las siguientes librerias:
+	-Devtools: Para despliegues continuos y agiles en tiempo de desarrollo.
+	-Web: para obtener el core de spring, consumir apis y usar el contenedor IoC
+	-Discovery Client: Para poder registrar el servidor zuul en el servidor de nombres, que pueda detectar y otorgar puerto desde eureka.
+	-Zuul.
+
+En el metodo main se debe marcar como cliente eureka (@EnableEurekaClient) y habilitamos como proxy zuul (@EnableZuulProxy)
+en el archivo properties configuramos el nombre del servicio, el puerto y el url del servidor eureka. Adicional a esto configuramos lo siguiente:
+	-Para configurar las rutas dinamicas de los microservicos.
+		-configuramos el identificador de la ruta: zuul.routes.NOMBRE-RUTA.service-id=NOMBRE-SERVICIO
+			ejm:
+				zuul.routes.productos.service-id=servicio-productos
+		-configuramos la ruta: zuul.routes.NOMBRE-RUTA.path=/RUTA/**
+			ejm:
+				zuul.routes.productos.path=/api/productos/**
+Con esto ya se accederia siempre desde Zuul y no desde cada microservicio.
+
+Ciclo de vida Zuul
+filtros:
+Pre: pre route. se ejecuta antes de que el request sea enrutado
+Rost: se ejecuta despues que el request fue enrutado
+Route: enruta el request			
+
+Para hacer estos Filtros se debe hacer una clase por cada caso. Esta clase debe extender de ZuulFilter y se deben implementar los metodos abstractos.[VER CODIGO PARA VER EJEMPLO]
+
+TIMEOUT en zuul
+Para configurar el timeout se debe hacer lo mismo de las notas de Hystrix pero configurado en el servidor Zuul
+
