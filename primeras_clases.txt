@@ -1,0 +1,18 @@
+Spring boot DevTools esta en developer tools y reemplaza a DevTools
+Spring Web Starter esta en Web (al final) y reemplaza a Web
+
+Cuando se hace un DAO mediante Spring Data y se extiende la interfaz a CrudRepository, esta contendra las operaciones basicas CRUD para la base de datos.
+NOTA: Aparte de dar las operaciones de CRUD, Marca la interfaz como component, por lo tanto es un Bean que está en el contenedor IoC y se puede inyectar en otras clases mediante @Autowired.
+
+Para abrir varios microservicios en intelli j se puede crear un proyecto vacio y cuando esta dentro del proyecto, hacer click en File -> new -> module from existing source. Selecciona el proyecto y al abrir todos los microservicios el IDE los identifica como microservicios.
+
+Cuando se tienen varios microservicios con clases en comun, se puede hacer un proyecto (comunmente denominado common) y se crean el codigo de clases y de utilidades en él.
+
+Para consultar a otro servicio se debe configurar RestTemplate. RestTemplate permite la comunicacion entre servicios mediante protocolo HTTP REST de forma mas sencilla. Para configurar se debe hacer una clase anotada con @Configuration y se agrega al contenedor IoC mediante anotacion @Bean. 
+
+Feign es una alternativa a RestTemplate es Feign, esta desarrollada por Netflix y forma del ecosistema de cloud, se integra con el balanceo de cargas de Ribbon y tambien viene configurado con los clientes de Eureka. Para utilizarla se debe anotar la clase main de Spring con @EnableFeignClients, con esto los inyecta al contenedor IoC.
+
+
+
+
+
