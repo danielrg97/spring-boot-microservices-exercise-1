@@ -1,0 +1,33 @@
+Notas Spring Cloud Config Center
+Configuracion centralizada.
+Se hace un servidor de configuraciones
+La idea de este servidor es que todos los archivos .properties o .yaml se centralizen.
+Para esto configuramos en el servidor el nombre del servicio, el puerto (8888 comunmente) y el url del repositorio GIT(Los archivos config de los microservicios deben estar versionados).
+Tambien debemos marcar el metodo main como @EnableConfigServer
+Los archivos .properties deben tener como nombre el nombre del microservicio correspondiente.
+
+Para configurar los Servicios clientes de debe agregar la dependencia ConfigClient, se debe crear el archivo bootstrap.properties y en el debemos especificar el nombre del servicio y la ubicacion del servidor de configuracion de la siguiente forma:
+	spring.cloud.config.uri=http://localhost:8888/
+El profile (ambiente) se configura de la siguiente forma:
+	spring.cloud.config.profile=default 
+Primero cuando levantamos el microservicio, primero se conecta al servidor de configuracion y le pide toda la configuracion a git donde estan versionados los archivos de configuracion.
+
+IMPORTANTE: Hay que tener en cuenta que primero se levanta bootstrap.properties (Donde se accede al servidor de configuracion) y luego el application.properties, Por lo tanto no se DEBE tener las mismas configuraciones en ambas ya que en ejecucion las de application.properties sobreescribirían las de bootstrap.properties.
+
+Para configurar por ambientes la mnemotecnia del nombramiento de archivo debe ser:
+	NOMBRESERVICIO-AMBIENTE.properties
+	ej. servicio-items-dev.properties
+		servicio-items-qa.properties
+		servicio.items-pdn.properties
+Para acceder a estos archivos desde la aplicacion se debe inyectar la propiedad Enviroment de spring:
+	@Autowired
+    private Environment environment;
+Para ver el perfil(ambiente) accedemos  mediante el array de profiles environment.getActiveProfiles()
+para obtener un dato del archivo de configuracion se usa  environment.getProperty
+
+Actualizar cambios en tiempo de ejecucion con @RefreshScope y Actuator
+Cuando necesitamos cambiar una configuracion de algun archivo .properties y requerimos que el cambio se refleje en tiempo de ejecucion, requeriremos utilizar Actuator.
+Pero primero necesitamos marcar el controlador con @RefreshScope ya que por defecto es un singleton, osea que la configuracion dura lo mismo que dura su instancia.
+Una vez marcado el controlador, nos dirigimos al bootstrap.properties y ponemos la siguiente propiedad
+	management.endpoints.web.exposure.include=* (tambien se puede especificar que endpoints de actuator requerimos, el '*' representa todos)
+Con esto ya estaria la configuracion. Para hace uso de actuator para actualizar la configuracion debemos ejecutar el endpoint con el puerto del servicio donde establecimos la configuracion, hacer una peticion post a /actuator/refresh y con esto ya estarian los cambios.
