@@ -1,4 +1,21 @@
+Que son son los microservicios: son un conjunto de componentes pequeños que son autonomos que colaboran entre si, a diferencia de un proyecto grande donde se encuentra todas la funcionalidades.
+A estos proyectos grandes que no se dividen en componentes pequeños y autonomos se les denomina Monolitos o monolitica.
+La gran ventaja de los microservicios es la modularidad de las tareas.
+Cada microservicio se puede conectar a diferentes base de datos(sql y nosql) o a una misma.
+cada microservicio podria tener diferentes versiones y caracteristicas. Ejm: un microservicio podria estar conectado a una bd sql, utilizar x version de spring y utilizar solo el core de MVC, mientras que otro servicio podria estar conectado a una bd nosql, utilizar y version de spring y utilizar spring webflux para peticiones reactivas, hasta utilizar otros lenguajes y otras tecnologias.
+Los microservicios son mas rapidos de desplegar y de liberar nuevas versiones a ambientes productivos.
+Tambien son mas faciles de escalar en la nube, y mas versatiles para balancear cargas y levantar instancias por microservicio, a diferencia de un monolito que tendria que hacer una instancia por aplicacion completa, lo que se resume en poca escalabilidad y optimizacion de los recursos.
+
+CARACTERISTICAS
+	-Funcion unica por servicio.
+	-Son independientes, cada uno se despliega en su propio servidor http, sin embargo se pueden conectar entre si. se pueden testear, monitorear, escalar, desplegar de forma independiente.
+	-Registro y autodescubrimiento de servicios. desacopla de nuestro codigo la ip y el puerto de nuestro microservicio. En vez de configurar en codigo duro, se hace de manera automatica y en tiempo de ejecucion a traves de un identificador. Estos identificadores se registran en un servidor de nombres, como por ejemplo Eureka. Cuando el cliente requiere al servicio, se comunica con el servidor de nombre y este le da la ip y el puerto donde se ubica el servicio
+	-Confiabilidad y tolerancia a fallos mediante hystrix de Netflix
+	-Configuracion centralizada.
+	
+
 Spring boot DevTools esta en developer tools y reemplaza a DevTools
+
 Spring Web Starter esta en Web (al final) y reemplaza a Web
 
 Cuando se hace un DAO mediante Spring Data y se extiende la interfaz a CrudRepository, esta contendra las operaciones basicas CRUD para la base de datos.
