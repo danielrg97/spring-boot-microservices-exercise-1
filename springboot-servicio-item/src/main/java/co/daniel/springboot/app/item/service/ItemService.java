@@ -1,11 +1,19 @@
 package co.daniel.springboot.app.item.service;
 
 import co.daniel.springboot.app.item.models.Item;
+import co.daniel.springboot.app.item.models.Producto;
 
 import java.util.List;
 
 public interface ItemService {
-    public List<Item> findAll();
+    List<Item> findAll();
 
-    public Item findById(Long id, Integer cantidad);
+    Item findById(Long id, Integer cantidad);
+
+    Producto save(Producto producto);
+
+    Producto update(Producto producto, Long id);
+
+    void delete(Long id);
+
 }
