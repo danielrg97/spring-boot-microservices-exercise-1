@@ -1,6 +1,6 @@
 package co.daniel.springboot.app.item.clientes;
 
-import co.daniel.springboot.app.item.models.Producto;
+import co.daniel.springboot.app.commons.models.entity.Producto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

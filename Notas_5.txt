@@ -1,0 +1,16 @@
+Servicio Commons.
+Usualmente en los proyectos que manejan la arquitectura basada en microservicios tienen codigo que se requieren en cada uno de los proyectos por lo cual se requiere una solucion para poder tener codigo reusable y evitar al maximo el boilerplate. Esto se logra con un nuevo servicio commons que se encarga de almacenar las utilidades y codigo comun en cada uno de los proyectos.
+Hay que tener en cuenta que hay que eliminar el metodo main (No la clase) y eliminar el plugin de maven.
+
+Para poder hacer que los proyectos puedan usar estos commons se debe hacer un .jar del servicio y agregarlo como dependencia de los otros microservicios que lo necesiten.
+
+Para hacer el .jar se debe ejecutar el comando mvn install desde terminal ya que el install de maven del IDE no genera el .jar en el target del proyecto
+
+Si en commons necesitamos entidades con dependencia de jpa se pueden hacer dos cosas:
+	-Agregar la dependencia de spring data jpa y agregar h2 para crear una conexion.(menos aconsejable)
+	-Agregar la dependencia de spring data jpa y no agregar h2. para no generar problemas debemos ir a la  clase principal y marcar con @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+	NOTA: si en los proyectos donde se va a implementar esta dependencia no se tiene configurado una base de datos debemos hacer este mismo proceso.
+
+Hay que agregar este jar como dependencia en los otros microservicios mediante maven usando la etiqueta <dependency> y agregando el groupId, artifact y version correspondientes al proyecto commons.
+
+Por ultimo debemos importar la entidad de commons en cada una de las clases donde se requiera.

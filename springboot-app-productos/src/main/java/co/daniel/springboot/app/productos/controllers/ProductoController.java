@@ -1,6 +1,6 @@
 package co.daniel.springboot.app.productos.controllers;
 
-import co.daniel.springboot.app.productos.models.entity.Producto;
+import co.daniel.springboot.app.commons.models.entity.Producto;
 import co.daniel.springboot.app.productos.models.service.IProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

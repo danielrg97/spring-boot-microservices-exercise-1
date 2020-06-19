@@ -2,7 +2,7 @@ package co.daniel.springboot.app.item.service;
 
 import co.daniel.springboot.app.item.clientes.ProductoClienteRest;
 import co.daniel.springboot.app.item.models.Item;
-import co.daniel.springboot.app.item.models.Producto;
+import co.daniel.springboot.app.commons.models.entity.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
