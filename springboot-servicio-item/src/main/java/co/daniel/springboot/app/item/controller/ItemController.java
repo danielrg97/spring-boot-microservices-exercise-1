@@ -1,7 +1,7 @@
 package co.daniel.springboot.app.item.controller;
 
 import co.daniel.springboot.app.item.models.Item;
-import co.daniel.springboot.app.item.models.Producto;
+import co.daniel.springboot.app.commons.models.entity.Producto;
 import co.daniel.springboot.app.item.service.ItemService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;

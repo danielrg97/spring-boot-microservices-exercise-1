@@ -1,7 +1,7 @@
 package co.daniel.springboot.app.item.service;
 
 import co.daniel.springboot.app.item.models.Item;
-import co.daniel.springboot.app.item.models.Producto;
+import co.daniel.springboot.app.commons.models.entity.Producto;
 
 import java.util.List;
 
